@@ -13,16 +13,19 @@ class Receiver:
         self.PORT = 993
         
     def connect(self):
+        #returns connected mailbox
         mailbox = imaplib.IMAP4_SSL(self.mailserver, self.PORT)
         mailbox.login(self.emailaddr, self.pwd)
         mailbox.select()
         return mailbox
 
     def disconnect(self, mailbox):
+        #disconnects mailbox
         mailbox.close()
         mailbox.logout()
 
     def get_mails(self):
+        #appends al new mail to list
         mailbox = self.connect()
         r, msglist = mailbox.search(None, 'UNSEEN')
         if r == 'OK':
@@ -33,6 +36,7 @@ class Receiver:
         self.disconnect(mailbox)
 
     def save_attachements(self, msg):
+        #returns a list with all csv attachments for mail list
         attachment_list = []
         for part in msg.walk():
             if part.get_content_type() == 'multipart':
@@ -48,6 +52,7 @@ class Receiver:
         return attachment_list
 
     def get_sender(self, msg):
+        #returns email adress of sender
         return email.utils.parseaddr(msg.get('From'))[1]
 
     def check_extension(self, filename, extension):
@@ -57,6 +62,7 @@ class Receiver:
             return False
 
     def save_all_csv(self):
+        #returns a list with data object containing csv files and sender email adress
         self.mails = []
         data_files = []
         self.get_mails()

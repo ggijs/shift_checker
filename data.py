@@ -15,6 +15,7 @@ class Data:
             return csv.Sniffer().has_header(f.read())
 
     def set_header_layout(self):
+        #returns dict containing header layout of input csv file
         if self.header:
             layout = {}
             with open(self.input, encoding='utf-8-sig') as f:

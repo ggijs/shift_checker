@@ -13,6 +13,7 @@ class Shift_checker:
         self.output_list = []
 
     def update_input(self):
+        #add all new csv files to input list
         files = self.email_client.get_data()
         if files != None:
             print(f'Adding {len(files)} files')
@@ -20,6 +21,7 @@ class Shift_checker:
                 self.input_list.append(f)
 
     def process_input(self):
+        #removes data object from input list, create output file, adds to output list
         if len(self.input_list) > 0:
-            for i in self.input_list:
-                self.output_list.append(self.checker.process(i))
+            input = self.input_list.pop()
+            self.output_list.append(self.checker.process(input))

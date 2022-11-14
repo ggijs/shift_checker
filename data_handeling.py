@@ -11,6 +11,7 @@ class Checker:
         self.data_list = []
 
     def set_shift_layout(self):
+        #returns a dict containing the header layout of the csv file with shift information
         layout = {}
         with open(self.shift_sheet, encoding='utf-8-sig') as f:
             f = next(csv.reader(f, delimiter=';'))
@@ -19,6 +20,7 @@ class Checker:
         return layout
 
     def set_time_sheet(self):
+        #returns a dict with lowercase shiftname and shift duration in hours as a float 
         sheet = {}
         with open(self.shift_sheet) as f:
             next(f)
@@ -27,6 +29,7 @@ class Checker:
         return sheet
 
     def calc_shift_hours(self, start_time, end_time):
+        #returns time difference from to strings as a float
         start_time = datetime.datetime.strptime(start_time, '%H:%M')
         end_time = datetime.datetime.strptime(end_time, '%H:%M')
         if start_time > end_time:
@@ -37,6 +40,7 @@ class Checker:
             return delta.total_seconds()/(60*60)
 
     def process(self, data):
+        #creates output file and returns data object with added output
         self.data = data
         self.data_list = self.read_data()
         try:
@@ -53,6 +57,7 @@ class Checker:
         return self.data
 
     def read_data(self):
+        #returns the input csv file as a list
         file = []
         with open(self.data.get_data(), encoding='utf-8-sig') as d:
             for i in csv.reader(d, delimiter=';'):
@@ -73,6 +78,7 @@ class Checker:
             del(i[col])
 
     def create_filename(self):
+        #returns a output filename based on the date of the first data entry in the csv file
         months = {1 : 'januari',
                   2 : 'februari',
                   3 : 'maart',
