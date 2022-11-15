@@ -25,3 +25,8 @@ class Shift_checker:
         if len(self.input_list) > 0:
             input = self.input_list.pop()
             self.output_list.append(self.checker.process(input))
+
+    def return_output(self):
+        if len(self.output_list) > 0:
+            output = self.output_list.pop()
+            self.email_client.sender.send_mail(output)

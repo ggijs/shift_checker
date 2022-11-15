@@ -1,14 +1,14 @@
-import imaplib, smtplib, receiver
+import imaplib, receiver, sender
 
 class Email:
 
     def __init__(self, email_addr, pwd):
         self.mailserver = 'smtp.office365.com'
-        self.smtp_port = 587
         self.imap_port = 993
         self.mail_adress = email_addr
         self.pwd = pwd
         self.receiver = receiver.Receiver(self.mailserver, self.mail_adress, self.pwd)
+        self.sender = sender.Sender(self.mailserver, self.mail_adress, self.pwd)
 
     def delete_read(self):
         #deletes al read mail in mailbox
