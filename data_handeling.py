@@ -50,7 +50,8 @@ class Checker:
             self.data.set_invalid_file_layout()
             return self.data
         self.data_list[0][5] = 'Opmerkingen'
-        self.remove_column(5)  
+        self.remove_column(5)
+        self.data_list = self.sort_list(self.data_list)
         output_filename = self.create_filename()
         self.data.set_output_file(output_filename)
         self.write_output(output_filename)
@@ -76,6 +77,14 @@ class Checker:
     def remove_column(self, col):
         for i in self.data_list[1:]:
             del(i[col])
+
+    def sort_list(self, list):
+            list = list
+            header = list[0]
+            del(list[0])
+            list.sort(key= lambda x: (x[1],x[0]))
+            list.insert(0, header)
+            return list
 
     def create_filename(self):
         #returns a output filename based on the date of the first data entry in the csv file
