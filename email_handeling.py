@@ -15,7 +15,7 @@ class Email:
         with imaplib.IMAP4_SSL(self.mailserver, self.imap_port) as mail:
             mail.login(self.mail_adress, self.pwd)
             mail.select()
-            r, msglist = mail.search(None, 'SEEN')
+            status, msglist = mail.search(None, 'SEEN')
             for msg in msglist[0].split():
                 mail.store(msg, "+FLAGS", "\\Deleted")
             mail.expunge()
@@ -25,12 +25,11 @@ class Email:
         with imaplib.IMAP4_SSL(self.mailserver, self.imap_port) as mail:
             mail.login(self.mail_adress, self.pwd)
             mail.select()
-            r, msglist = mail.search(None, 'UNSEEN')
+            status, msglist = mail.search(None, 'UNSEEN')
             if len(msglist[0]) > 0:
                 return True
 
     def get_data(self):
         #returns a list with data objects containing new csv files from mails and sender email adress
         if self.new_mail():
-            data = self.receiver.save_all_csv()
-            return data
+            return self.receiver.save_all_csv()

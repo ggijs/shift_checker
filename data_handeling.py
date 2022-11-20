@@ -13,18 +13,18 @@ class Checker:
     def set_shift_layout(self):
         #returns a dict containing the header layout of the csv file with shift information
         layout = {}
-        with open(self.shift_sheet, encoding='utf-8-sig') as f:
-            f = next(csv.reader(f, delimiter=';'))
-            for i in range(len(f)):
-                layout[f[i].lower()] = i
+        with open(self.shift_sheet, encoding='utf-8-sig') as file:
+            file = next(csv.reader(file, delimiter=';'))
+            for i in range(len(file)):
+                layout[file[i].lower()] = i
         return layout
 
     def set_time_sheet(self):
         #returns a dict with lowercase shiftname and shift duration in hours as a float 
         sheet = {}
-        with open(self.shift_sheet) as f:
-            next(f)
-            for i in csv.reader(f, delimiter=';'):
+        with open(self.shift_sheet) as file:
+            next(file)
+            for i in csv.reader(file, delimiter=';'):
                 sheet[i[self.shift_layout['dienst']].lower()] = self.calc_shift_hours(i[self.shift_layout['starttijd']], i[self.shift_layout['eindtijd']])
         return sheet
 
@@ -34,10 +34,10 @@ class Checker:
         end_time = datetime.datetime.strptime(end_time, '%H:%M')
         if start_time > end_time:
             delta = start_time - end_time
-            return (24 - (delta.total_seconds()/(60*60)))
+            return (24 - (delta.total_seconds() / (60*60)))
         else:
             delta = end_time - start_time
-            return delta.total_seconds()/(60*60)
+            return delta.total_seconds() / (60*60)
 
     def process(self, data):
         #creates output file and returns data object with added output
