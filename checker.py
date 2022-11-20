@@ -1,6 +1,7 @@
 import email_handeling
 import data_handeling
 import credentials
+import time
 
 class Shift_checker:
 
@@ -22,11 +23,18 @@ class Shift_checker:
 
     def process_input(self):
         #removes data object from input list, create output file, adds to output list
-        if len(self.input_list) > 0:
+        while len(self.input_list) > 0:
             input = self.input_list.pop()
             self.output_list.append(self.checker.process(input))
 
     def return_output(self):
-        if len(self.output_list) > 0:
+        while len(self.output_list) > 0:
             output = self.output_list.pop()
             self.email_client.sender.send_mail(output)
+
+    def run(self):
+        #run entire process then wait for 60 seconds
+        self.update_input()
+        self.process_input()
+        self.return_output()
+        time.sleep(60)
