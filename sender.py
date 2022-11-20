@@ -38,5 +38,6 @@ class Sender:
         connection.login(self.emailaddr, self.pwd)
 
         connection.sendmail(self.emailaddr, self.mail_data.sender, message)
+        print(f'reply send to {self.mail_data.sender}')
 
         connection.quit()
