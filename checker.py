@@ -2,6 +2,7 @@ import email_handeling
 import data_handeling
 import credentials
 import time
+from socket import gaierror
 
 class Shift_checker:
 
@@ -34,7 +35,11 @@ class Shift_checker:
 
     def run(self):
         #run entire process then wait for 60 seconds
-        self.update_input()
+        try:
+            self.update_input()
+        except gaierror:
+            #added to deal with DNS problem
+            print('Cannot connect to mailserver')
         self.process_input()
         self.return_output()
         time.sleep(60)
