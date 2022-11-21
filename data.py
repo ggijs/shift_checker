@@ -1,4 +1,5 @@
 import csv
+import os
 
 class Data:
 
@@ -28,6 +29,12 @@ class Data:
 
     def get_data(self):
         return self.input
+
+    def delete_files(self):
+        if os.path.exists(self.output):
+            os.remove(self.output)
+        if os.path.exists(self.input):
+            os.remove(self.input)
 
     def get_header_layout(self):
         return self.header_layout

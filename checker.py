@@ -13,6 +13,7 @@ class Shift_checker:
         self.checker = data_handeling.Checker()
         self.input_list = []
         self.output_list = []
+        self.cleanup_list = []
 
     def update_input(self):
         #add all new csv files to input list
@@ -32,6 +33,13 @@ class Shift_checker:
         while len(self.output_list) > 0:
             output = self.output_list.pop()
             self.email_client.sender.send_mail(output)
+            self.cleanup_list.append(output)
+
+    def clean_up(self):
+        while len(self.cleanup_list) > 0:
+            data = self.cleanup_list.pop()
+            data.delete_files()
+        self.email_client.delete_read()
 
     def run(self):
         #run entire process then wait for 60 seconds
@@ -42,4 +50,5 @@ class Shift_checker:
             print('Cannot connect to mailserver')
         self.process_input()
         self.return_output()
+        self.clean_up()
         time.sleep(60)
